@@ -1,3 +1,5 @@
+
+#[allow(dead_code)]
 pub fn part1(input: &Vec<String>) -> String{
     let mut max: i64 = 0;
     let mut elf_sum: i64 = 0;
@@ -16,6 +18,7 @@ pub fn part1(input: &Vec<String>) -> String{
     max.to_string()
 }
 
+#[allow(dead_code)]
 pub fn part2(input: &Vec<String>) -> String{
     let mut max: Vec<i64> = vec![0,0,0];
 

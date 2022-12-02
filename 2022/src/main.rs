@@ -4,9 +4,15 @@ use std::io::{BufReader, BufRead, Error};
 use std::path::{Path};
 
 fn main() {
-    let input1 = read_lines_to_vector("./inputs/day1.txt").unwrap();
-    println!("Answer day 1a {}", days::day1::part1(&input1));
-    println!("Answer day 1b {}", days::day1::part2(&input1));
+    // let input1 = read_lines_to_vector("./inputs/day1.txt").unwrap();
+    let input2 = read_lines_to_vector("./inputs/day2.txt").unwrap();
+
+
+    
+    // println!("Answer day 1a {}", days::day1::part1(&input1));
+    // println!("Answer day 1b {}", days::day1::part2(&input1));
+    println!("Answer day 2a {}", days::day2::part1(&input2));
+    println!("Answer day 2b {}", days::day2::part2(&input2));
 }
 
 fn read_lines_to_vector(file_path: &str) -> Result<Vec<String>, Error>{
