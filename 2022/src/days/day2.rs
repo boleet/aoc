@@ -1,4 +1,3 @@
-
 pub struct RPCChoice{
     value: RPCValue
 }
@@ -10,11 +9,6 @@ enum RPCValue {
     SCISSORS,
 }
 
-enum RPCGameResult {
-    WIN,
-    DRAW,
-    LOSE,
-}
 
 impl RPCChoice{
     fn new(choice: &str) -> RPCChoice{
@@ -63,11 +57,11 @@ impl RPCChoice{
         mypoints
     }
 
-    fn newDraw(other: &RPCChoice) -> RPCChoice{
+    fn new_draw(other: &RPCChoice) -> RPCChoice{
         return RPCChoice { value: other.value }
     }
 
-    fn newLoser(other: &RPCChoice) -> RPCChoice{
+    fn new_winer(other: &RPCChoice) -> RPCChoice{
         let val = match other.value {
             RPCValue::ROCK => RPCValue::SCISSORS,
             RPCValue::PAPER => RPCValue::ROCK,
@@ -76,7 +70,7 @@ impl RPCChoice{
         return RPCChoice { value: val }
     }
 
-    fn newWinner(other: &RPCChoice) -> RPCChoice{
+    fn new_winner(other: &RPCChoice) -> RPCChoice{
         let val = match other.value {
             RPCValue::ROCK => RPCValue::PAPER,
             RPCValue::PAPER => RPCValue::SCISSORS,
@@ -88,6 +82,7 @@ impl RPCChoice{
 
 }
 
+#[allow(dead_code)]
 pub fn part1(input: &Vec<String>) -> String{
     // A rock, B paper, C scissors
     // X rock, Y paper, C scissors
@@ -112,13 +107,13 @@ pub fn part2(input: &Vec<String>) -> String{
         let choice_a = RPCChoice::new(parts[0]);
         let choice_b = match parts[1]{
             "X" =>{
-                RPCChoice::newLoser(&choice_a)
+                RPCChoice::new_winer(&choice_a)
             },
             "Y" =>{
-                RPCChoice::newDraw(&choice_a)
+                RPCChoice::new_draw(&choice_a)
             },
             "Z" =>{
-                RPCChoice::newWinner(&choice_a)
+                RPCChoice::new_winner(&choice_a)
             },
             _ =>{
                 panic!("could not find choice")
