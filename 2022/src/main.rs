@@ -17,6 +17,8 @@ fn main() {
     // println!("Answer day 2b {}", days::day2::part2(&input2));
     // println!("Answer day 3a {}", days::day3::part1(&input3));
     // println!("Answer day 3b {}", days::day3::part2(&input3));
+    println!("Answer day 4a {}", days::day4::part1(&input4));
+    println!("Answer day 4b {}", days::day4::part2(&input4));
       
 }
 
