@@ -10,8 +10,8 @@ fn main() {
     // let input4 = read_lines_to_vector("./inputs/day4.txt").unwrap();
     // let input5 = read_lines_to_vector("./inputs/day5.txt").unwrap();
     // let input6 = read_lines_to_vector("./inputs/day6.txt").unwrap();
-    // let input7 = read_lines_to_vector("./inputs/day7small.txt").unwrap();
-    let input8 = read_lines_to_vector("./inputs/day8.txt").unwrap();
+    let input7 = read_lines_to_vector("./inputs/day7.txt").unwrap();
+    // let input8 = read_lines_to_vector("./inputs/day8.txt").unwrap();
 
 
     
@@ -27,10 +27,10 @@ fn main() {
     // println!("Answer day 5b {}", days::day5::part2(&input5));
     // println!("Answer day 6a {}", days::day6::part1(&input6));
     // println!("Answer day 6b {}", days::day6::part2(&input6));
-    // println!("Answer day 7a {}", days::day7::part1(&input7));
-    // println!("Answer day 7b {}", days::day7::part2(&input7));
-    println!("Answer day 8a {}", days::day8::part1(&input8));
-    println!("Answer day 8b {}", days::day8::part2(&input8));
+    println!("Answer day 7a {}", days::day7::part1(&input7));
+    println!("Answer day 7b {}", days::day7::part2(&input7));
+    // println!("Answer day 8a {}", days::day8::part1(&input8));
+    // println!("Answer day 8b {}", days::day8::part2(&input8));
      
 }
 
