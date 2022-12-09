@@ -12,7 +12,7 @@ fn main() {
     // let input6 = read_lines_to_vector("./inputs/day6.txt").unwrap();
     // let input7 = read_lines_to_vector("./inputs/day7.txt").unwrap();
     // let input8 = read_lines_to_vector("./inputs/day8.txt").unwrap();
-    let input9 = read_lines_to_vector("./inputs/day9small.txt").unwrap();
+    let input9 = read_lines_to_vector("./inputs/day9.txt").unwrap();
 
 
     
@@ -33,7 +33,7 @@ fn main() {
     // println!("Answer day 8a {}", days::day8::part1(&input8));
     // println!("Answer day 8b {}", days::day8::part2(&input8));
     // println!("Answer day 9a {}", days::day9::part1(&input9));
-    println!("Answer day 9b {}", days::day8::part2(&input9));
+    println!("Answer day 9b {}", days::day9::part2(&input9));
      
 }
 
