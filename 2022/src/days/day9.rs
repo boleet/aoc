@@ -76,6 +76,8 @@ impl Rope {
                         self.tail.get_mut(i).unwrap().1 -= 1;
                     }
                 }
+            }else{
+                break;
             }
         }
     }
@@ -129,6 +131,7 @@ pub fn part1(input: &Vec<String>) -> String {
 
 #[allow(dead_code, unused_variables)]
 pub fn part2(input: &Vec<String>) -> String {
+    println!("Start part 2");
     let mut rope = Rope::new(9);
     let mut unique_locations: HashSet<(isize, isize)> = HashSet::new();
 

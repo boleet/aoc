@@ -2,6 +2,7 @@ mod days;
 use std::fs::File;
 use std::io::{BufReader, BufRead, Error};
 use std::path::{Path};
+use std::time::Instant;
 
 fn main() {
     // let input1 = read_lines_to_vector("./inputs/day1.txt").unwrap();
@@ -14,8 +15,10 @@ fn main() {
     // let input8 = read_lines_to_vector("./inputs/day8.txt").unwrap();
     let input9 = read_lines_to_vector("./inputs/day9.txt").unwrap();
 
-
     
+    
+    let now = Instant::now();
+
     // println!("Answer day 1a {}", days::day1::part1(&input1));
     // println!("Answer day 1b {}", days::day1::part2(&input1));
     // println!("Answer day 2a {}", days::day2::part1(&input2));
@@ -34,6 +37,9 @@ fn main() {
     // println!("Answer day 8b {}", days::day8::part2(&input8));
     // println!("Answer day 9a {}", days::day9::part1(&input9));
     println!("Answer day 9b {}", days::day9::part2(&input9));
+
+    let elapsed_time = now.elapsed();
+    println!("Running slow_function() took {} microseconds, which is {} ms.", elapsed_time.as_micros(), elapsed_time.as_millis());
      
 }
 
