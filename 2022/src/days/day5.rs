@@ -33,7 +33,7 @@ pub fn part1(input: &Vec<String>) -> String{
             .filter(|x| x.parse::<usize>().is_ok())
             .map(|x| x.parse().unwrap())
             .collect();
-            for j in 0..params[0]{
+            for _ in 0..params[0]{
                 // println!("Executing move from {} to {}", params[1], params[2]);
                 let elem = stacks.get_mut(params[1]-1).unwrap().pop().unwrap();
                 let target_stack = stacks.get_mut(params[2]-1).unwrap();

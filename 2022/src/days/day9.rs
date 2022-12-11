@@ -35,8 +35,8 @@ impl Rope {
 
     fn update_tail(&mut self) {
         for i in 0..self.size{
-            let mut hx: isize = 0;
-            let mut hy: isize = 0;
+            let hx: isize;
+            let hy: isize;
             if i == 0{
                 hx = self.head.0;
                 hy = self.head.1;

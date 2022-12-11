@@ -1,6 +1,3 @@
-use std::slice::SliceIndex;
-use std::cmp::max;
-
 #[allow(dead_code)]
 pub fn part1(input: &Vec<String>) -> String{
     let forest_width = input.first().unwrap().len();
@@ -11,7 +8,7 @@ pub fn part1(input: &Vec<String>) -> String{
     for i in 0..input.len(){
         let line = input.get(i).unwrap();
         if i == 0 || i == input.len()-1{
-            forest.get_mut(i).unwrap().iter_mut().for_each(|(x,y)| *x = true);
+            forest.get_mut(i).unwrap().iter_mut().for_each(|(x,_)| *x = true);
         }else{
             forest[i][0].0 = true;
             forest[i][forest_width-1].0 = true;
@@ -69,7 +66,7 @@ pub fn part1(input: &Vec<String>) -> String{
 pub fn part2(input: &Vec<String>) -> String{
     let forest_width = input.first().unwrap().len();
     let forest_height = input.len();
-    let mut forest: Vec<Vec<usize>> = vec![vec![(0); forest_width]; input.len()];
+    let mut forest: Vec<Vec<usize>> = vec![vec![0; forest_width]; input.len()];
     
     let mut max_scenic_score = 0;
 

@@ -1,4 +1,3 @@
-use core::panic;
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -95,10 +94,7 @@ pub fn part2(input: &Vec<String>) -> String{
 
 fn create_file_tree(input: &Vec<String>) -> Rc<RefCell<Node>>{
     let root = Rc::new(RefCell::new(Node::new("/".to_string(), 0, None, true)));
-    let mut current: Rc<RefCell<Node>> = Rc::clone(&root);
-
-    let mut sum = 0;
-        
+    let mut current: Rc<RefCell<Node>> = Rc::clone(&root);        
     for line in input{
         let command: Vec<&str> = line.split(' ').collect();
 
@@ -124,7 +120,7 @@ fn create_file_tree(input: &Vec<String>) -> Rc<RefCell<Node>>{
                     "ls" =>{
                         // println!("ls command {:?}", command);
                     },
-                    _ => !panic!("Whoops")
+                    _ => unimplemented!()
                 }
             },
             "dir" => {
