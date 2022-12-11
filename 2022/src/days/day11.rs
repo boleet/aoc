@@ -81,7 +81,7 @@ impl Monkey{
                     unimplemented!()
                 }
             }
-            new_item = new_item /3; // TODO ceil instead of integer division
+            new_item = new_item /3;
             if new_item % self.divisble_by == 0{
                 result.push((self.true_throw, new_item));
             }else{
@@ -153,7 +153,7 @@ pub fn part1(input: &Vec<String>) -> String{
     monkeys.insert(m_id,new_monkey);
 
 
-    for round_i in 0..20{
+    for _ in 0..20{
         // calculating rounds
         for monkey_i in 0..monkeys.len(){
             let changed_items = monkeys.get_mut(monkey_i).unwrap().process_items();
@@ -165,18 +165,26 @@ pub fn part1(input: &Vec<String>) -> String{
     }
 
 
-    let monkey_inspects: Vec<usize> = vec![0,0];
+    let mut monkey_inspects_top: Vec<usize> = vec![];
     for monkey_i in 0..monkeys.len(){
         let monkey = monkeys.get(monkey_i).unwrap();
-        println!("Monkey {} with {} inspects has items {:?}", monkey.id, monkey.inspects, monkey.items);
-        // if monkey.inspects > monkey_inspects.get(0)
+        if monkey_inspects_top.len() < 2{
+            if monkey_inspects_top.len() > 0 && monkey.inspects > monkey_inspects_top[0]{
+                monkey_inspects_top.insert(0, monkey.inspects);
+            }else{
+                monkey_inspects_top.push(monkey.inspects);
+            }
+        }else{
+            if monkey.inspects > monkey_inspects_top[0]{
+                monkey_inspects_top.insert(0, monkey.inspects);
+                monkey_inspects_top.pop();
+            }else if monkey.inspects > monkey_inspects_top[1]{
+                monkey_inspects_top.insert(1, monkey.inspects);
+                monkey_inspects_top.pop();
+            }
+        }
     }
-    println!();
-
-
-    
-
-    String::from("Placeholder part 1")
+    (monkey_inspects_top[0] * monkey_inspects_top[1]).to_string()
 }
 
 
