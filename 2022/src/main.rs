@@ -41,8 +41,8 @@ fn main() {
     // println!("Answer day 9b {}", days::day9::part2(&input9));
     // println!("Answer day 10a {}", days::day10::part1(&input10));
     // println!("Answer day 10b {}", days::day10::part2(&input10)); //RLEZFLGE
-    println!("Answer day 11a {}", days::day11::part1(&input11));
-    // println!("Answer day 11b {}", days::day11::part2(&input11)); //RLEZFLGE
+    // println!("Answer day 11a {}", days::day11::part1(&input11));
+    println!("Answer day 11b {}", days::day11::part2(&input11)); //RLEZFLGE
     
     let elapsed_time = now.elapsed();
     println!("Running took {} microseconds, which is {} ms.", elapsed_time.as_micros(), elapsed_time.as_millis());
