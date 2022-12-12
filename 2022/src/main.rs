@@ -16,7 +16,7 @@ fn main() {
     // let input9 = read_lines_to_vector("./inputs/day9.txt").unwrap();
     // let input10 = read_lines_to_vector("./inputs/day10.txt").unwrap();
     // let input11 = read_lines_to_vector("./inputs/day11.txt").unwrap();
-    let input12 = read_lines_to_vector("./inputs/day12small.txt").unwrap();
+let input12 = read_lines_to_vector("./inputs/day12.txt").unwrap();
 
     
     
