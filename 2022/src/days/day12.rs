@@ -33,7 +33,7 @@ fn get_minimum(values: &Vec<Vec<usize>>, unvisited: &HashSet<(usize, usize)>) ->
 
 impl Map {
 
-    fn dijkstra_shortest_path(&self) -> usize{
+    fn dijkstra_shortest_path(&self, starting_point: (usize, usize)) -> usize{
         let size = self.size;
         let mut unvisited: HashSet<(usize, usize)> = HashSet::new();
         for x in 0..size.0{
@@ -43,13 +43,13 @@ impl Map {
         }
 
         let mut distances: Vec<Vec<usize>> = vec![vec![usize::MAX; size.1]; size.0]; // NOTE: flipped compared to other coordinate lists
-        distances[self.start.0][self.start.1] = 0;
+        distances[starting_point.0][starting_point.1] = 0;
         
-        let mut current = self.start;
+        let mut current = starting_point;
         'outer: while unvisited.len() > 0{
             
             let current_value = distances[current.0][current.1];
-            println!("Working on current node {:?} with {} unvisited left", current, unvisited.len());
+            // println!("Working on current node {:?} with {} unvisited left", current, unvisited.len());
             for m in self.get_valid_moves(current){
                 let next = self.get_next(m, current).unwrap().0;                
                 if !unvisited.contains(&next){ // already visisted, skip
@@ -227,13 +227,63 @@ pub fn part1(input: &Vec<String>) -> String {
 
     // Search
     println!("Starting search from start location {:?} to goal {:?}", start, goal);
-    let result = map.dijkstra_shortest_path();
+    let result = map.dijkstra_shortest_path(map.start);
     result.to_string()
 }
 
 #[allow(dead_code, unused_variables)]
 pub fn part2(input: &Vec<String>) -> String {
-    for line in input {}
+    let height = input.len();
+    let width = input.first().unwrap().len();
+    let mut start = (0, 0);
+    let mut goal = (0, 0);
+    let mut grids: Vec<Vec<usize>> = vec![];
 
-    String::from("Placeholder part 2")
+    // Build map
+    for (y, line) in input.iter().enumerate() {
+        let mut row: Vec<usize> = vec![];
+        for (x, c) in line.chars().enumerate() {
+            if c == 'S' {
+                start = (x, y);
+                row.push(0);
+            } else if c == 'E' {
+                goal = (x, y);
+                row.push(('z' as usize) - ('a' as usize));
+            } else {
+                row.push((c as usize) - ('a' as usize));
+            }
+        }
+        grids.push(row);
+    }
+    let mut map: Map = Map {
+        size: (width, height),
+        start: start,
+        goal: goal,
+        grids: grids,
+        valid_moves: vec![],
+        // valid_routes: vec![]
+    };
+    println!("Loaded map, now initializing valid moves");
+    map.initialize_valid_moves();
+    
+    // determine starting points
+    let mut starting_points: Vec<(usize, usize)> = vec![];
+    for y in 0..map.grids.len(){
+        for x in 0..map.grids.first().unwrap().len(){
+            if map.grids[y][x] == 0{
+                starting_points.push((x,y));
+            }
+        }
+    }
+    // Search
+    let mut min = usize::MAX;
+    for s in starting_points{
+        println!("Starting search from start location {:?} to goal {:?}", s, goal);
+        let result = map.dijkstra_shortest_path(s);
+        if result < min{
+            min = result;
+        }
+    }
+   
+    min.to_string()
 }
