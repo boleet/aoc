@@ -41,7 +41,6 @@ impl Operation{
 
 #[derive(Debug)]
 struct Monkey{
-    id: usize,
     items: Vec<usize>,
     operation: Operation,
     divisble_by: usize,
@@ -135,7 +134,6 @@ pub fn part1(input: &Vec<String>) -> String{
             m_false_throw = line.split(" ").last().unwrap().parse::<usize>().unwrap();
         }else if line.is_empty(){
             let new_monkey = Monkey { 
-                id: m_id, 
                 items: m_items.to_vec(), 
                 operation: m_operation, 
                 divisble_by: m_divisible_by, 
@@ -148,7 +146,6 @@ pub fn part1(input: &Vec<String>) -> String{
     }
     // file does not end with new line..
     let new_monkey = Monkey { 
-        id: m_id, 
         items: m_items.to_vec(), 
         operation: m_operation, 
         divisble_by: m_divisible_by, 
@@ -224,7 +221,6 @@ pub fn part2(input: &Vec<String>) -> String{
             m_false_throw = line.split(" ").last().unwrap().parse::<usize>().unwrap();
         }else if line.is_empty(){
             let new_monkey = Monkey { 
-                id: m_id, 
                 items: m_items.to_vec(), 
                 operation: m_operation, 
                 divisble_by: m_divisible_by, 
@@ -237,7 +233,6 @@ pub fn part2(input: &Vec<String>) -> String{
     }
     // file does not end with new line..
     let new_monkey = Monkey { 
-        id: m_id, 
         items: m_items.to_vec(), 
         operation: m_operation, 
         divisble_by: m_divisible_by, 

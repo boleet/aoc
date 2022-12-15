@@ -1,4 +1,4 @@
-use std::process::exit;
+use std::collections::HashSet;
 
 #[derive(Clone, Debug)]
 enum Move {
@@ -7,7 +7,6 @@ enum Move {
     Up,
     Down,
 }
-
 struct Map {
     size: (usize, usize),  // width, height
     start: (usize, usize), // x, y position. top left is 0,0
@@ -17,38 +16,71 @@ struct Map {
     // valid_routes: Vec<usize>,
 }
 
-impl Map {
-    fn initialize_all_routes(&self, trace: &mut Vec<(usize, usize)>) -> Option<&mut Vec<(usize, usize)>> {        
-        // println!("Simulate_route now at {:?}", *trace.last().unwrap());
-        let valid_moves = self.get_valid_moves(*trace.last().unwrap());
-        if valid_moves.len() == 1 {
-            // println!("This is a dead end... Trace : {:?}", trace);
-            trace.pop();
-            return None;
-        } else {
-            for m in valid_moves {
-                let current_position = *trace.last().unwrap();
-                let next = self.get_next(m, current_position).unwrap().0;
-                if next == self.goal {
-                    println!("Done, found goal! Trace length {}", trace.len());
-                    continue;
-                } else {
-                    if trace.contains(&next){ // we already visited, dont enter loop
-                        continue;
-                    }
-                    trace.push(next);
+fn get_minimum(values: &Vec<Vec<usize>>, unvisited: &HashSet<(usize, usize)>) -> (usize, usize){
+    let mut min_value = usize::MAX;
+    let mut min_coordinates = (0,0);
+    let mut uninitialized = true;
 
-                    match self.initialize_all_routes(trace) {
-                        Some(x) => return Some(x),
-                        None => {continue}
-                    }
-                }
-            }
-            trace.pop();
-            // println!("This is a dead end... Trace : {:?}", trace);
-            return None
+    for c in unvisited{
+        if uninitialized || values[c.0][c.1] < min_value{
+            min_value = values[c.0][c.1];
+            min_coordinates = (c.0,c.1);
+            uninitialized = false;
         }
     }
+    return min_coordinates
+}
+
+impl Map {
+
+    fn dijkstra_shortest_path(&self) -> usize{
+        let size = self.size;
+        let mut unvisited: HashSet<(usize, usize)> = HashSet::new();
+        for x in 0..size.0{
+            for y in 0..size.1{
+                unvisited.insert((x,y));
+            }
+        }
+
+        let mut distances: Vec<Vec<usize>> = vec![vec![usize::MAX; size.1]; size.0]; // NOTE: flipped compared to other coordinate lists
+        distances[self.start.0][self.start.1] = 0;
+        
+        let mut current = self.start;
+        'outer: while unvisited.len() > 0{
+            
+            let current_value = distances[current.0][current.1];
+            println!("Working on current node {:?} with {} unvisited left", current, unvisited.len());
+            for m in self.get_valid_moves(current){
+                let next = self.get_next(m, current).unwrap().0;                
+                if !unvisited.contains(&next){ // already visisted, skip
+                    continue;
+                }
+
+                let mut new_value = current_value;
+                if new_value < usize::MAX{
+                    new_value += 1;
+                }
+
+                if new_value < distances[next.0][next.1]{
+                    // println!("Updating next {:?} to value {}", next,new_value);
+                    distances[next.0][next.1] = new_value
+                }
+                if next == self.goal{
+                    println!("Found goal! Value {}", distances[self.goal.0][self.goal.1]);
+                    break 'outer;
+                }
+                
+            }
+            unvisited.remove(&current);
+
+            current = get_minimum(&distances, &unvisited);
+        }
+        
+        // distances.iter().for_each(|x| println!("{:?}",x));
+        
+        return distances[self.goal.0][self.goal.1];
+    }
+
 
     fn initialize_valid_moves(&mut self) {
         for y in 0..self.size.1 {
@@ -78,24 +110,25 @@ impl Map {
         let a = self.get_above(coordinates);
         let b = self.get_below(coordinates);
         let current_value = self.get_value(coordinates).unwrap();
+
         if l.is_some() && l.unwrap().1 <= current_value + 1{
             result.push(Move::Left);
         }
         if r.is_some() && r.unwrap().1 <= current_value + 1 {
             result.push(Move::Right);
         }
-        if a.is_some() && a.unwrap().1 <= current_value + 1 {
+        if a.is_some() && a.unwrap().1 <= current_value + 1{
             result.push(Move::Up);
         }
-        if b.is_some() && b.unwrap().1 <= current_value + 1 {
+        if b.is_some() && b.unwrap().1 <= current_value + 1{
             result.push(Move::Down);
         }
         result
     }
 
     fn get_value(&self, coordinates: (usize, usize)) -> Option<usize> {
-        if coordinates.0 < self.size.0
-            && coordinates.1 < self.size.1 // greater than 0 check usuless due to type limitations
+        if coordinates.0 < self.size.0 && coordinates.1 < self.size.1
+        // greater than 0 check usuless due to type limitations
         {
             return Some(
                 *self
@@ -188,20 +221,14 @@ pub fn part1(input: &Vec<String>) -> String {
         valid_moves: vec![],
         // valid_routes: vec![]
     };
-
-    // map.grids.iter().for_each(|x| println!("{:?}", x));
-    // println!();
+    println!("Loaded map, now initializing valid moves");
     map.initialize_valid_moves();
-    // map.valid_moves.iter().for_each(|x| {x.iter().for_each(|y| print!("{:?}", y)); println!()});
+    
 
     // Search
     println!("Starting search from start location {:?} to goal {:?}", start, goal);
-    let mut trace = vec![map.start];
-    let result = map.initialize_all_routes(&mut trace);
-    println!("Search result is: {:?}", result);
-    
-
-    String::from("Placeholder part 1")
+    let result = map.dijkstra_shortest_path();
+    result.to_string()
 }
 
 #[allow(dead_code, unused_variables)]
