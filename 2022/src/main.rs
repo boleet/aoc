@@ -50,8 +50,8 @@ fn main() {
     // println!("Answer day 12b {}", days::day12::part2(&input12)); 
     // println!("Answer day 13a {}", days::day13::part1(&input13));
     // println!("Answer day 13b {}", days::day13::part2(&input13)); 
-    println!("Answer day 14a {}", days::day14::part1(&input14));
-    // println!("Answer day 14b {}", days::day14::part2(&input14)); 
+    // println!("Answer day 14a {}", days::day14::part1(&input14));
+    println!("Answer day 14b {}", days::day14::part2(&input14)); 
     
     let elapsed_time = now.elapsed();
     println!("Running took {} microseconds, which is {} ms.", elapsed_time.as_micros(), elapsed_time.as_millis());

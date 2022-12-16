@@ -1,4 +1,6 @@
-use std::ops::{Range, RangeInclusive};
+use std::{ops::{Range, RangeInclusive}, fmt::format};
+
+use itertools::Itertools;
 
 #[derive(Debug, Clone, Copy)]
 enum Tile{
@@ -27,7 +29,7 @@ impl Cave{
         }
     }
 
-    fn draw_rock(&mut self, input: &String) {
+    fn draw_rock(&mut self, input: &String) -> usize{
         let parts: Vec<(usize, usize)> = input.split(" -> ").map(
             |x|{
                 (x.split(",").nth(0).unwrap().parse().unwrap(), x.split(",").nth(1).unwrap().parse().unwrap())
@@ -35,8 +37,12 @@ impl Cave{
         
         let mut previous_part: (usize, usize) = (usize::MAX,usize::MAX);
         let selfsize = self.size();
-
+        let mut max_y=0;
         for part in parts{
+            if part.1 > max_y{ // keep track of maximum y value
+                max_y = part.1;
+            }
+
             if part.0 > selfsize.0 || part.1 > selfsize.1{
                 panic!("WHOOPS to small initial cave")
             }
@@ -49,9 +55,10 @@ impl Cave{
             }
             previous_part = part;
         }
+        max_y
     }
 
-    fn put_sand(&mut self) -> bool{
+    fn put_sand(&mut self) -> Option<(usize, usize)>{
         let mut sand_location = self.sand_source;
         let mysize = self.size();
         loop{
@@ -74,6 +81,7 @@ impl Cave{
                                 },
                                 None => {
                                     // we cannot go left, as this does not exist
+                                    println!("Panic left below error error")
                                 }
                             }
 
@@ -82,7 +90,7 @@ impl Cave{
                                 Some(right_below) =>{
                                     match right_below.1{
                                         Tile::Rock | Tile::Sand =>{
-                                            // we cannot go left, as this is already filled
+                                            // we cannot go right, as this is already filled
                                         },
                                         Tile::Air =>{
                                             sand_location = right_below.0;
@@ -91,13 +99,14 @@ impl Cave{
                                     }
                                 },
                                 None => {
-                                    // we cannot go left, as this does not exist
+                                    // we cannot go right, as this does not exist
+                                    println!("Panic right below error error")
                                 }
                             }
 
                             // below, left below and right below are full, so just store here
                             self.tiles[sand_location.0][sand_location.1] = Tile::Sand;
-                            return true;
+                            return Some(sand_location);
                         },
                         Tile::Air =>{
                             sand_location = below.0;
@@ -106,13 +115,10 @@ impl Cave{
                     }
                 },
                 None =>{
-                    return false
+                    return None
                 }
             }
         }
-
-        // TODO return true if stored, false if into void
-        unimplemented!()
     }
 
     fn get_value(&self, coordinates: (usize, usize)) -> Option<Tile> {
@@ -187,25 +193,50 @@ pub fn part1(input: &Vec<String>) -> String{
         cave.draw_rock(line);
     }
 
-    
     let mut count = 0;
-    while cave.put_sand(){
+    while cave.put_sand().is_some(){
         count += 1;
-        println!("Put {} sand", count);
     }
 
-
     // println!("{}", cave.tiles.iter().map(|x| format!("{:?}", x)).collect::<String>());
-    
     count.to_string()
 }
 
 
 #[allow(dead_code, unused_variables)]
 pub fn part2(input: &Vec<String>) -> String{
+    let width = 800; // TODO very ugly, need to empirally set the width
+    let mut cave = Cave::new((width,200), (500,0));
+
+    let mut max_y = 0;
     for line in input{
-       
+        let temp_max_y = cave.draw_rock(line);
+        if temp_max_y > max_y{
+            max_y = temp_max_y;
+        }
+    }
+    max_y += 2;
+
+    println!("The max y reached is {}", max_y);
+
+    cave.draw_rock(&format!("0,{} -> {},{}", max_y,width-1,max_y));
+    
+    // cave.tiles.iter().enumerate().filter(|(i,x)| i > &480 && i < &520).map(|(_,x)| x).for_each(|x| println!("{:?}", x.iter().enumerate().filter(|(i,_)| *i <= max_y ).map(|(_,x)| x).collect_vec()));
+    //println!();
+    let mut count = 0;
+    loop{
+        match cave.put_sand(){
+            Some(x) =>{
+                count += 1;
+                if x == (500,0){
+                    break
+                }
+            },
+            None => break
+        }
+        
     }
 
-    String::from("Placeholder part 2")
+    // cave.tiles.iter().enumerate().filter(|(i,x)| i > &480 && i < &520).map(|(_,x)| x).for_each(|x| println!("{:?}", x.iter().enumerate().filter(|(i,_)| *i <= max_y ).map(|(_,x)| x).collect_vec()));    
+    return count.to_string()
 }
