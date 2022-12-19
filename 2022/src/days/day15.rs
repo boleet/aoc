@@ -5,9 +5,7 @@ use nom::character::streaming::i128;
 use nom::sequence::{preceded, pair};
 use nom::{IResult};
 use nom::bytes::complete::tag;
-use nom::multi::many0;
 use nom::combinator::map;
-use std::thread;
 
 #[derive(Debug)]
 struct Sensor{

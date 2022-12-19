@@ -1,6 +1,4 @@
-use std::{ops::{Range, RangeInclusive}, fmt::format};
-
-use itertools::Itertools;
+use std::ops::RangeInclusive;
 
 #[derive(Debug, Clone, Copy)]
 enum Tile{
@@ -60,7 +58,6 @@ impl Cave{
 
     fn put_sand(&mut self) -> Option<(usize, usize)>{
         let mut sand_location = self.sand_source;
-        let mysize = self.size();
         loop{
             match self.get_below(sand_location){
                 Some(below) =>{
@@ -166,6 +163,7 @@ impl Cave{
         }
     }
     // Asumes coordinates is valid
+    #[allow(unused)]
     fn get_above(&self, coordinates: (usize, usize)) -> Option<((usize, usize), Tile)> {
         if coordinates.1 > 0 {
             let xy = (coordinates.0, coordinates.1 - 1);

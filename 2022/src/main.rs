@@ -19,7 +19,8 @@ fn main() {
     // let input12 = read_lines_to_vector("./inputs/day12.txt").unwrap();
     // let input13 = read_lines_to_vector("./inputs/day13.txt").unwrap();
     // let input14 = read_lines_to_vector("./inputs/day14.txt").unwrap();
-    let input15 = read_lines_to_vector("./inputs/day15.txt").unwrap();
+    // let input15 = read_lines_to_vector("./inputs/day15.txt").unwrap();
+    let input16 = read_lines_to_vector("./inputs/day16small.txt").unwrap();
 
     
     
@@ -54,7 +55,13 @@ fn main() {
     // println!("Answer day 14a {}", days::day14::part1(&input14));
     // println!("Answer day 14b {}", days::day14::part2(&input14)); 
     // println!("Answer day 15a {}", days::day15::part1(&input15));
-    println!("Answer day 15b {}", days::day15::part2(&input15)); 
+    // println!("Answer day 15b {}", days::day15::part2(&input15)); 
+    println!("Answer day 16a {}", days::day16::part1(&input16));
+    // println!("Answer day 16b {}", days::day16::part2(&input16)); 
+    
+    
+    
+    
     let elapsed_time = now.elapsed();
 
 
